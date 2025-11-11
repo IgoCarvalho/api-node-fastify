@@ -1,20 +1,17 @@
-import Fastify from 'fastify';
 import 'dotenv/config';
+import { app } from './app.ts';
 import { env } from './env.ts';
 
-const fastify = Fastify({
-  logger: true,
-});
-
-fastify.get('/', (_request, reply) => {
+app.get('/', (_request, reply) => {
   reply.send({ hello: 'world' });
 });
 
-fastify.listen({ port: env.PORT }, (err, address) => {
-  console.log(`Server running at ${address} 🚀`);
-
-  if (err) {
-    fastify.log.error(err);
+app
+  .listen({ host: '0.0.0.0', port: env.PORT })
+  .then((address) => {
+    console.log(`🚀 Server running at ${address} `);
+  })
+  .catch((err) => {
+    app.log.error(err);
     process.exit(1);
-  }
-});
+  });
