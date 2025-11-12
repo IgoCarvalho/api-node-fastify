@@ -3,7 +3,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/prisma/*": ["./prisma/generated/prisma/*"]
     }
   },
   "extends": ["@tsconfig/node22/tsconfig.json"]
