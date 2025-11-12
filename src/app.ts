@@ -1,5 +1,3 @@
-import Fastify from 'fastify';
+import { fastify } from 'fastify';
 
-export const app = Fastify({
-  logger: true,
-});
+export const app = fastify();
