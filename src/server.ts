@@ -2,10 +2,6 @@ import 'dotenv/config';
 import { app } from '@/app';
 import { env } from '@/env';
 
-app.get('/', (_request, reply) => {
-  reply.send({ hello: 'world' });
-});
-
 app
   .listen({ host: '0.0.0.0', port: env.PORT })
   .then((address) => {
