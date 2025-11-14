@@ -5,5 +5,15 @@
     "formatter": {
       "quoteStyle": "single"
     }
+  },
+  "linter": {
+    "rules": {
+      "nursery": {
+        "useConsistentTypeDefinitions": "off"
+      },
+      "style": {
+        "noParameterProperties": "off"
+      }
+    }
   }
 }
