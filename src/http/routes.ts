@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { register } from '@/http/controllers/register';
 import { prisma } from '@/lib/prisma';
+import { authenticate } from './controllers/authenticate';
 
 // biome-ignore lint/suspicious/useAwait: Fastify plugins need to be async
 export async function appRoutes(app: FastifyInstance) {
@@ -10,4 +11,5 @@ export async function appRoutes(app: FastifyInstance) {
   });
 
   app.post('/users', register);
+  app.post('/sessions', authenticate);
 }
