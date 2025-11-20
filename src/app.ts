@@ -1,4 +1,5 @@
 import { fastify } from 'fastify';
+import { StatusCodes } from 'http-status-codes';
 import { ZodError, z } from 'zod';
 import { env } from './env';
 import { appRoutes } from './http/routes';
@@ -10,7 +11,7 @@ app.register(appRoutes);
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply
-      .status(400)
+      .status(StatusCodes.BAD_REQUEST)
       .send({ message: 'Validation error', issues: z.treeifyError(error) });
   }
 
@@ -19,5 +20,7 @@ app.setErrorHandler((error, _, reply) => {
     console.error(error);
   }
 
-  return reply.status(500).send({ message: 'Internal server error' });
+  return reply
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .send({ message: 'Internal server error' });
 });

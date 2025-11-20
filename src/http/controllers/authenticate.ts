@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error';
 import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case';
@@ -20,11 +21,13 @@ export async function authenticate(
     await authenticateUseCase.execute({ email, password });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
-      return reply.status(400).send({ message: error.message });
+      return reply
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ message: error.message });
     }
 
     throw error;
   }
 
-  reply.status(200).send();
+  reply.status(StatusCodes.OK).send();
 }

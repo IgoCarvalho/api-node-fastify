@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error';
 import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case';
@@ -18,11 +19,13 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     await registerUseCase.execute({ email, name, password });
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {
-      return reply.status(409).send({ message: error.message });
+      return reply
+        .status(StatusCodes.CONFLICT)
+        .send({ message: error.message });
     }
 
     throw error;
   }
 
-  reply.status(201).send();
+  reply.status(StatusCodes.CREATED).send();
 }
