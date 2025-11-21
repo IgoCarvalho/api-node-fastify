@@ -31,4 +31,18 @@ export class InMemoryGymsRepository implements GymsRepository {
 
     return Promise.resolve(gym || null);
   }
+
+  searchMany(query: string, page: number): Promise<Gym[]> {
+    const pageSize = 20;
+    const sliceStart = (page - 1) * pageSize;
+    const SliceEnd = page * pageSize;
+
+    const gyms = this.data
+      .filter((gym) =>
+        gym.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+      )
+      .slice(sliceStart, SliceEnd);
+
+    return Promise.resolve(gyms);
+  }
 }
