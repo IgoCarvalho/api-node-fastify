@@ -6,6 +6,14 @@ import type { CheckInsRepository } from '../check-ins-repository';
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   private readonly data: CheckIn[] = [];
 
+  countByUserId(userId: string): Promise<number> {
+    const checkInsCount = this.data.filter(
+      (checkIn) => checkIn.userId === userId
+    ).length;
+
+    return Promise.resolve(checkInsCount);
+  }
+
   findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
     const checkInOnSameDate = this.data.find((checkIn) => {
       const checkInDate = dayjs(checkIn.createdAt);
