@@ -16,6 +16,18 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     return Promise.resolve(checkInOnSameDate || null);
   }
 
+  findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
+    const pageSize = 20;
+    const sliceStart = (page - 1) * pageSize;
+    const SliceEnd = page * pageSize;
+
+    const checkIns = this.data
+      .filter((checkIn) => checkIn.userId === userId)
+      .slice(sliceStart, SliceEnd);
+
+    return Promise.resolve(checkIns);
+  }
+
   create({ gymId, userId }: CreateCheckInInput): Promise<CheckIn> {
     const checkIn = {
       id: randomUUID(),
