@@ -6,3 +6,5 @@ export interface Gym {
   latitude: number;
   longitude: number;
 }
+
+export type CreateGymInput = Omit<Gym, 'id'>;
