@@ -14,6 +14,12 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     return Promise.resolve(checkInsCount);
   }
 
+  findById(id: string): Promise<CheckIn | null> {
+    const checkIn = this.data.find((item) => item.id === id);
+
+    return Promise.resolve(checkIn || null);
+  }
+
   findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
     const checkInOnSameDate = this.data.find((checkIn) => {
       const checkInDate = dayjs(checkIn.createdAt);
@@ -46,6 +52,16 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     };
 
     this.data.push(checkIn);
+
+    return Promise.resolve(checkIn);
+  }
+
+  save(checkIn: CheckIn): Promise<CheckIn> {
+    const checkInIndex = this.data.findIndex((item) => item.id === checkIn.id);
+
+    if (checkInIndex >= 0) {
+      this.data[checkInIndex] = checkIn;
+    }
 
     return Promise.resolve(checkIn);
   }
