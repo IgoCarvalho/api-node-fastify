@@ -8,3 +8,8 @@ export interface Gym {
 }
 
 export type CreateGymInput = Omit<Gym, 'id'>;
+
+export interface FindManyNearbyInput {
+  latitude: number;
+  longitude: number;
+}

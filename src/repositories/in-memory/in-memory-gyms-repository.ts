@@ -1,9 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import type { CreateGymInput, Gym } from '@/models/gym-model';
-import {
-  type Coordinate,
-  getDistanceBetweenCoordinates,
-} from '@/utils/get-distance-between-coordinates';
+import type {
+  CreateGymInput,
+  FindManyNearbyInput,
+  Gym,
+} from '@/models/gym-model';
+import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates';
 import type { GymsRepository } from '../gyms-repository';
 
 export class InMemoryGymsRepository implements GymsRepository {
@@ -36,7 +37,7 @@ export class InMemoryGymsRepository implements GymsRepository {
     return Promise.resolve(gym || null);
   }
 
-  findManyNearby(params: Coordinate): Promise<Gym[]> {
+  findManyNearby(params: FindManyNearbyInput): Promise<Gym[]> {
     const nearbyGyms = this.data.filter((gym) => {
       const distance = getDistanceBetweenCoordinates(
         { latitude: gym.latitude, longitude: gym.longitude },
