@@ -1,12 +1,12 @@
 import type { FastifyInstance } from 'fastify';
-import { register } from '@/http/controllers/register';
+import { verifyJwt } from '@/http/middlewares/verify-jwt';
 import { prisma } from '@/lib/prisma';
-import { authenticate } from './controllers/authenticate';
-import { profile } from './controllers/profile';
-import { verifyJwt } from './middlewares/verify-jwt';
+import { authenticate } from './authenticate';
+import { profile } from './profile';
+import { register } from './register';
 
 // biome-ignore lint/suspicious/useAwait: Fastify plugins need to be async
-export async function appRoutes(app: FastifyInstance) {
+export async function usersRoutes(app: FastifyInstance) {
   app.get('/users', async (_request, reply) => {
     const users = await prisma.user.findMany();
     reply.send({ users });
