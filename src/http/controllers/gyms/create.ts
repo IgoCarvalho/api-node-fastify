@@ -1,7 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error';
 import { makeCreateGymUseCase } from '@/use-cases/factories/make-create-gym-use-case';
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
@@ -17,25 +16,15 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     request.body
   );
 
-  try {
-    const createGymUseCase = makeCreateGymUseCase();
+  const createGymUseCase = makeCreateGymUseCase();
 
-    await createGymUseCase.execute({
-      title,
-      description,
-      phone,
-      latitude,
-      longitude,
-    });
-  } catch (error) {
-    if (error instanceof UserAlreadyExistsError) {
-      return reply
-        .status(StatusCodes.CONFLICT)
-        .send({ message: error.message });
-    }
-
-    throw error;
-  }
+  await createGymUseCase.execute({
+    title,
+    description,
+    phone,
+    latitude,
+    longitude,
+  });
 
   reply.status(StatusCodes.CREATED).send();
 }
